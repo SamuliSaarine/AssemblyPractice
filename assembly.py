@@ -1,32 +1,15 @@
-
-
-# This python program allows user to simulate writing and executing assembly code
-# Operations supported: ADD, SUB, DIV, MUL, JUMP, JUMPZERO, LOAD, STORE, PRINT and INPUT
-# User can wrrite assembly code by first writing the operation and then the operands
-# Program is runned when user writes 'run'
-
-# For example:
-# INPUT // Taking input from user to accumulator
-# STORE A // Storing the value in accumulator to variable A
-# INPUT // Taking input from user to accumulator
-# ADD A // Adding the value of A to accumulator
-# PRINT // Printing the value in accumulator
-# run // Running the program
-# 5 // Input
-# 6 // Input
-# 11 // Output
-
+#Memory locations
 acc = 0
 a = 0
 b = 0
 c = 0
 d = 0
 e = 0
+
+#Program save location
 program = []
 
-# Function to return the value of operand
-
-
+# English instructions
 def print_instructions_en():
     print('\nInstructions:\n')
 
@@ -58,7 +41,7 @@ def print_instructions_en():
 
     return None
 
-
+# Finnish instructions
 def print_instructions_fi():
     print('\nOhjeet:\n')
 
@@ -88,7 +71,7 @@ def print_instructions_fi():
 
     print(' * INPUT: Pyydä käyttäjältä syöte ja tallenna se akkumulaattoriin\n')
 
-
+# Parsing memory location or value
 def get_value(operand):
     if operand == 'A':
         return a
@@ -103,7 +86,7 @@ def get_value(operand):
     else:
         return int(operand)
 
-
+# Parsing and executing the line in assembly program
 def handle_command(command):
     global acc, a, b, c, d, e
 
@@ -153,7 +136,7 @@ def handle_command(command):
 
     return None
 
-
+#Running the whole assembly program
 def run_program():
     if len(program) == 0:
         print('No program to run')
@@ -171,7 +154,7 @@ def run_program():
 
     print('\nPROGRAM FINISHED\n')
 
-
+# Handling the choice of the user
 def get_choice():
     choice = -1
     while choice == -1:
@@ -193,7 +176,7 @@ def get_choice():
             print('Invalid choice')
             choice = -1
 
-
+# Choosing if using debug mode
 def debug_mode():
     try:
         choice = input(
@@ -204,21 +187,25 @@ def debug_mode():
     except:
         return False
 
-
+# Writing the program
 def write_program():
     global program
     debugMode = debug_mode()
     print('\nEnter your program:')
     currentLine = len(program)
     while True:
+        # Starting program where left, command == 0, if program is empty
         command = input(f"{currentLine}:")
+        # Empty line stops writing
         if command == '':
             print('\nStopped writing program\n')
             break
 
+        # In debug mode commands are handled rightaway
         if debugMode:
             response = handle_command(command)
             program.append(command)
+            # Handling the jump
             while response is not None and response < len(program):
                 print(f"{response}: {program[response]}")
                 tempResponse = handle_command(program[response])
@@ -231,14 +218,17 @@ def write_program():
         currentLine += 1
     return None
 
-
+# Main program
 while True:
+    #Resetting values
     acc = 0
     a = 0
     b = 0
     c = 0
     d = 0
     e = 0
+
+    # Handling choice in the menu
     action = get_choice()
     if action == 0:
         break
